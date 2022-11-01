@@ -1,0 +1,7 @@
+CounterTest:testIncrement() (gas: 28356)
+CounterTest:testSetNumber(uint256) (runs: 256, μ: 27020, ~: 28342)
+ModulusInvariants:invariantNumberIsLessThan20() (runs: 256, calls: 3840, reverts: 55)
+ModulusInvariants:testMod20() (gas: 28410)
+ModulusInvariants:testMod20(uint256) (runs: 256, μ: 26228, ~: 28483)
+ModulusTest:testMod20() (gas: 28387)
+ModulusTest:testMod20(uint256) (runs: 256, μ: 25862, ~: 28505)
