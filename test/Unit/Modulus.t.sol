@@ -50,6 +50,12 @@ contract ModulusUnit is Test, Constants {
         s_modulus.setModDivisor(123);
     }
 
+    function test_setModDivisor_zeroValue_reverts() public {
+        changePrank(MOD_ADMIN);
+        vm.expectRevert(Modulus.ModDivisorCannotBeZero.selector);
+        s_modulus.setModDivisor(0);
+    }
+
     function test_setModDivisor() public {
         changePrank(MOD_ADMIN);
         s_modulus.setModDivisor(MOD_DIVISOR_2);
@@ -66,12 +72,5 @@ contract ModulusUnit is Test, Constants {
 
         s_modulus.mod(numerator);
         assertEq(s_modulus.getResult(), expected);
-    }
-
-    function test_mod_revertsIfModDivisorIsZero() public {
-        changePrank(MOD_ADMIN);
-        s_modulus.setModDivisor(0);
-        vm.expectRevert();
-        s_modulus.mod(50);
     }
 }

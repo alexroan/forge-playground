@@ -8,6 +8,7 @@ contract Modulus {
 
     error OnlyOwner(address expected, address actual);
     error OnlyModAdmin(address expected, address actual);
+    error ModDivisorCannotBeZero();
 
     /// @notice Owner of the contract - Can set the modAdmin
     address private s_owner;
@@ -21,6 +22,7 @@ contract Modulus {
     constructor(address modAdmin) {
         s_owner = msg.sender;
         s_modAdmin = modAdmin;
+        s_modDivisor = 1;
     }
 
     function setModAdmin(address modAdmin) external onlyOwner() {
@@ -30,6 +32,7 @@ contract Modulus {
     }
 
     function setModDivisor(uint256 modDivisor) external onlyModAdmin() {
+        if (modDivisor == 0) revert ModDivisorCannotBeZero();
         uint256 previous = s_modDivisor;
         s_modDivisor = modDivisor;
         emit ModDivisorSet(previous, modDivisor);
