@@ -4,6 +4,7 @@ pragma solidity 0.8.16;
 contract Modulus {
     event ModAdminSet(address indexed previous, address indexed modAdmin);
     event ModDivisorSet(uint256 previous, uint256 modDivisor);
+    event ResultReset();
     event Result(uint256 n, uint256 modDivisor, uint256 result);
 
     error OnlyOwner(address expected, address actual);
@@ -36,10 +37,15 @@ contract Modulus {
         uint256 previous = s_modDivisor;
         s_modDivisor = modDivisor;
         emit ModDivisorSet(previous, modDivisor);
+        s_result = 0;
+        emit ResultReset();
     }
 
     function mod(uint256 n) external {
-        s_result = n % s_modDivisor;
+        uint256 modDivisor = s_modDivisor;
+        uint256 result = n % modDivisor;
+        s_result = result;
+        emit Result(n, modDivisor, result);
     }
 
     function getOwner() external view returns (address owner) {

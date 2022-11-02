@@ -35,7 +35,10 @@ contract ModulusUnit is Test, Constants {
         s_modulus.setModAdmin(STRANGER);
     }
 
+    event ModAdminSet(address indexed previous, address indexed modAdmin);
     function test_setModAdmin() public {
+        vm.expectEmit(true, true, true, false);
+        emit ModAdminSet(s_modulus.getModAdmin(), STRANGER);
         s_modulus.setModAdmin(STRANGER);
         assertEq(s_modulus.getModAdmin(), STRANGER);
     }
@@ -56,8 +59,14 @@ contract ModulusUnit is Test, Constants {
         s_modulus.setModDivisor(0);
     }
 
+    event ModDivisorSet(uint256 previous, uint256 modDivisor);
+    event ResultReset();
     function test_setModDivisor() public {
         changePrank(MOD_ADMIN);
+        vm.expectEmit(true, false, false, false);
+        emit ModDivisorSet(s_modulus.getModDivisor(), MOD_DIVISOR_2);
+        vm.expectEmit(true, false, false, false);
+        emit ResultReset();
         s_modulus.setModDivisor(MOD_DIVISOR_2);
         assertEq(s_modulus.getModDivisor(), MOD_DIVISOR_2);
     }
@@ -65,11 +74,13 @@ contract ModulusUnit is Test, Constants {
     // ==========================================================================
     // MOD
     // ==========================================================================
-
+    event Result(uint256 n, uint256 modDivisor, uint256 result);
     function test_mod() public {
         uint256 numerator = 50;
         uint256 expected = numerator % MOD_DIVISOR_1;
 
+        vm.expectEmit(true, false, false, false);
+        emit Result(numerator, MOD_DIVISOR_1, expected);
         s_modulus.mod(numerator);
         assertEq(s_modulus.getResult(), expected);
     }

@@ -42,4 +42,8 @@ contract ModulusInvariants is Test, InvariantsBase, Constants {
         s_modulus.getModAdmin();
         s_modulus.getOwner();
     }
+
+    function invariant_resultShouldAlwaysBeLessThanModDivisor() public {
+        assertLe(s_modulus.getResult(), s_modulus.getModDivisor());
+    }
 }
