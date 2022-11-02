@@ -19,7 +19,7 @@ contract GAS_Modulus_Base is Test, Constants {
     }
 }
 
-contract GAS_ModulusGas_Owner is GAS_Modulus_Base {
+contract GAS_Modulus_Owner is GAS_Modulus_Base {
     function setUp() public virtual override{
         GAS_Modulus_Base.setUp();
         changePrank(OWNER);
@@ -30,7 +30,7 @@ contract GAS_ModulusGas_Owner is GAS_Modulus_Base {
     }
 }
 
-contract GAS_ModulusGas_ModAdmin is GAS_Modulus_Base {
+contract GAS_Modulus_ModAdmin is GAS_Modulus_Base {
     function setUp() public virtual override {
         GAS_Modulus_Base.setUp();
         changePrank(MOD_ADMIN);
@@ -41,7 +41,7 @@ contract GAS_ModulusGas_ModAdmin is GAS_Modulus_Base {
     }
 }
 
-contract GAS_ModulusGas_Stranger is GAS_Modulus_Base {
+contract GAS_Modulus_Stranger is GAS_Modulus_Base {
     function test_mod() public {
         s_modulus.mod(123);
     }
