@@ -5,8 +5,7 @@ import {Test} from "forge-std/Test.sol";
 import {Modulus} from "../../../src/Modulus.sol";
 import {ActorManager} from "../ActorManager.t.sol";
 
-
-contract ActorModAdmin is Test {
+contract ActorAdmin is Test {
     Modulus internal s_modulus;
 
     ActorManager internal s_manager;
@@ -18,9 +17,9 @@ contract ActorModAdmin is Test {
         s_modulus = modulus;
     }
 
-    function setModDivisor(uint256 modDivisor) external {
-        if (modDivisor == 0) modDivisor = 1;
-        changePrank(s_manager.getModAdminActualAddress());
-        s_modulus.setModDivisor(modDivisor);
+    function setModAdmin(uint160 seed) external {
+        address newModAdmin = address(seed);
+        s_modulus.setModAdmin(newModAdmin);
+        s_manager.setModAdminActualAddress(newModAdmin);
     }
 }

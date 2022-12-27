@@ -12,7 +12,7 @@ contract Modulus {
     error ModDivisorCannotBeZero();
 
     /// @notice Owner of the contract - Can set the modAdmin
-    address private s_owner;
+    address private immutable i_owner;
     /// @notice modAdmin can set the mod value
     address private s_modAdmin;
     /// @notice modDivisor used in mod calculation
@@ -21,7 +21,7 @@ contract Modulus {
     uint256 private s_result;
 
     constructor(address modAdmin) {
-        s_owner = msg.sender;
+        i_owner = msg.sender;
         s_modAdmin = modAdmin;
         s_modDivisor = 1;
     }
@@ -49,7 +49,7 @@ contract Modulus {
     }
 
     function getOwner() external view returns (address owner) {
-        owner = s_owner;
+        owner = i_owner;
     }
 
     function getModAdmin() external view returns (address modAdmin) {
@@ -65,8 +65,8 @@ contract Modulus {
     }
 
     modifier onlyOwner() {
-        if (msg.sender != s_owner) {
-            revert OnlyOwner(s_owner, msg.sender);
+        if (msg.sender != i_owner) {
+            revert OnlyOwner(i_owner, msg.sender);
         }
         _;
     }
