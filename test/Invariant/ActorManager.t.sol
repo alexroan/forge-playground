@@ -6,48 +6,59 @@ import {ActorModAdmin} from "./Actors/ActorModAdmin.t.sol";
 import {ActorStranger} from "./Actors/ActorStranger.t.sol";
 import {Modulus} from "../../src/Modulus.sol";
 
+// TODO: Template this file (using Storage.sol?)
+
 contract ActorManager {
-    ActorAdmin internal s_admin;
+    // Admin Actor contract
+    ActorAdmin internal s_actorAdmin;
 
-    ActorModAdmin internal s_modAdmin;
-    address internal s_modAdminActualAddress;
+    // ModAdmin Actor contract
+    ActorModAdmin internal s_actorModAdmin;
+    // ModAdmin Actor's actual address. This is here because the ActorAdmin sets this address on
+    // the Modulus contract, and the ActorModAdmin needs to know what address to use to prank.
+    address internal s_prankedModAdminAddress;
 
+    // A Stranger Actor contract
     ActorStranger internal s_stranger;
 
     constructor() {
-        s_admin = new ActorAdmin(this);
-        s_modAdmin = new ActorModAdmin(this);
-        s_modAdminActualAddress = address(1234567);
+        s_actorAdmin = new ActorAdmin(this);
+        s_actorModAdmin = new ActorModAdmin(this);
+        s_prankedModAdminAddress = address(1234567);
         s_stranger = new ActorStranger(this);
     }
 
+    // This sets the Modulus contract on each of the Actor contracts so that they know
+    // where to call.
     function storeModulus(Modulus modulus) external {
-        s_admin.storeModulus(modulus);
-        s_modAdmin.storeModulus(modulus);
+        s_actorAdmin.storeModulus(modulus);
+        s_actorModAdmin.storeModulus(modulus);
         s_stranger.storeModulus(modulus);
     }
 
-    function getAdmin() external returns (ActorAdmin) {
-        return s_admin;
+    function getAdmin() external view returns (ActorAdmin) {
+        return s_actorAdmin;
     }
 
-    function getModAdmin() external returns (ActorModAdmin) {
-        return s_modAdmin;
+    function getModAdmin() external view returns (ActorModAdmin) {
+        return s_actorModAdmin;
     }
 
-    function getModAdminActualAddress() external returns (address) {
-        return s_modAdminActualAddress;
+    function getPrankedModAdminAddress() external view returns (address) {
+        return s_prankedModAdminAddress;
     }
 
-    function getStranger() external returns (ActorStranger) {
+    function getStranger() external view returns (ActorStranger) {
         return s_stranger;
     }
 
     error InvariantTestError();
 
-    function setModAdminActualAddress(address newAddress) external returns (address) {
-        if (msg.sender != address(s_admin)) revert InvariantTestError();
-        s_modAdminActualAddress = newAddress;
+    // This is only callable by the ActorAdmin contract, and is used to update the pranked
+    // ModAdmin address, so that the ModAdmin contract knows what address to use to prank.
+    function setPrankedModAdminAddress(address newAddress) external returns (address) {
+        if (msg.sender != address(s_actorAdmin)) revert InvariantTestError();
+        s_prankedModAdminAddress = newAddress;
     }
 
 }

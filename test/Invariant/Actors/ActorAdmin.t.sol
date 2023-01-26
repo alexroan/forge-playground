@@ -20,6 +20,6 @@ contract ActorAdmin is Test {
     function setModAdmin(uint160 seed) external {
         address newModAdmin = address(seed);
         s_modulus.setModAdmin(newModAdmin);
-        s_manager.setModAdminActualAddress(newModAdmin);
+        s_manager.setPrankedModAdminAddress(newModAdmin);
     }
 }

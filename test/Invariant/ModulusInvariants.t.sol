@@ -10,6 +10,8 @@ import {ActorStranger} from "./Actors/ActorStranger.t.sol";
 import {ActorAdmin} from "./Actors/ActorAdmin.t.sol";
 import {ActorManager} from "./ActorManager.t.sol";
 
+// TODO: Template this file as much as possible with the manager
+
 contract ModulusInvariants is Test, InvariantsBase, Constants {
     Modulus internal s_modulus;
 
@@ -25,13 +27,13 @@ contract ModulusInvariants is Test, InvariantsBase, Constants {
         excludeContract(address(s_manager));
 
         // Deploy actors
-        ActorAdmin admin = s_manager.getAdmin();
-        ActorModAdmin modAdmin = s_manager.getModAdmin();
-        ActorStranger stranger = s_manager.getStranger();
+        ActorAdmin actorAdmin = s_manager.getAdmin();
+        ActorModAdmin actorModAdmin = s_manager.getModAdmin();
+        ActorStranger actorStranger = s_manager.getStranger();
 
         // Deploy Modulus contract
-        changePrank(address(admin));
-        s_modulus = new Modulus(s_manager.getModAdminActualAddress());
+        changePrank(address(actorAdmin));
+        s_modulus = new Modulus(s_manager.getPrankedModAdminAddress());
         excludeContract(address(s_modulus));
 
         // Store the Modulus address on each of the actors
@@ -40,20 +42,20 @@ contract ModulusInvariants is Test, InvariantsBase, Constants {
         // Add admin selectors to callable functions
         bytes4[] memory adminSelectors = new bytes4[](1);
         adminSelectors[0] = ActorAdmin.setModAdmin.selector;
-        addSelectors(address(admin), adminSelectors);        
+        addSelectors(address(actorAdmin), adminSelectors);        
 
         // Add mod admin selectors to callable functions
         bytes4[] memory modAdminSelectors = new bytes4[](1);
         modAdminSelectors[0] = ActorModAdmin.setModDivisor.selector;
-        addSelectors(address(modAdmin), modAdminSelectors);
+        addSelectors(address(actorModAdmin), modAdminSelectors);
 
         // Add stranger selectors to callable functions
         bytes4[] memory strangerSelectors = new bytes4[](1);
         strangerSelectors[0] = ActorStranger.mod.selector;
-        addSelectors(address(stranger), strangerSelectors);
+        addSelectors(address(actorStranger), strangerSelectors);
     }
 
-    function invariant_gettersNeverRevert() public {
+    function invariant_gettersNeverRevert() public view {
         s_modulus.getResult();
         s_modulus.getModDivisor();
         s_modulus.getModAdmin();

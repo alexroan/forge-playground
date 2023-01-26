@@ -20,7 +20,7 @@ contract ActorModAdmin is Test {
 
     function setModDivisor(uint256 modDivisor) external {
         if (modDivisor == 0) modDivisor = 1;
-        changePrank(s_manager.getModAdminActualAddress());
+        changePrank(s_manager.getPrankedModAdminAddress());
         s_modulus.setModDivisor(modDivisor);
     }
 }
