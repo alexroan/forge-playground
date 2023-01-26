@@ -13,7 +13,7 @@ contract Modulus {
 
     /// @notice Owner of the contract - Can set the modAdmin
     address private immutable i_owner;
-    /// @notice modAdmin can set the mod value
+    /// @notice modAdmin can set the modDivisor
     address private s_modAdmin;
     /// @notice modDivisor used in mod calculation
     uint256 private s_modDivisor;
