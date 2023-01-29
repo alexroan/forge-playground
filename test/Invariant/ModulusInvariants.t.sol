@@ -63,6 +63,6 @@ contract ModulusInvariants is Test, InvariantsBase, Constants {
     }
 
     function invariant_resultShouldAlwaysBeLessThanModDivisor() public {
-        assertLe(s_modulus.getResult(), s_modulus.getModDivisor());
+        assertLt(s_modulus.getResult(), s_modulus.getModDivisor());
     }
 }
