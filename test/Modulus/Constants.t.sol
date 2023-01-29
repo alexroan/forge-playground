@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.16;
+pragma solidity ^0.8.15;
 
 contract Constants {
     address internal constant OWNER = address(123);

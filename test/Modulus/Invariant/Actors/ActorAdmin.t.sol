@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.16;
+pragma solidity ^0.8.15;
 
 import {Test} from "forge-std/Test.sol";
-import {Modulus} from "../../../src/Modulus.sol";
+import {Modulus} from "../../../../src/Modulus/Modulus.sol";
 import {ActorManager} from "../ActorManager.t.sol";
 
 contract ActorAdmin is Test {

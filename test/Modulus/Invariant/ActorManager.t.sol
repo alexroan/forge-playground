@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.16;
+pragma solidity ^0.8.15;
 
 import {ActorAdmin} from "./Actors/ActorAdmin.t.sol";
 import {ActorModAdmin} from "./Actors/ActorModAdmin.t.sol";
 import {ActorStranger} from "./Actors/ActorStranger.t.sol";
-import {Modulus} from "../../src/Modulus.sol";
+import {Modulus} from "../../../src/Modulus/Modulus.sol";
 
 // TODO: Template this file (using Storage.sol?)
 
@@ -56,7 +56,7 @@ contract ActorManager {
 
     // This is only callable by the ActorAdmin contract, and is used to update the pranked
     // ModAdmin address, so that the ModAdmin contract knows what address to use to prank.
-    function setPrankedModAdminAddress(address newAddress) external returns (address) {
+    function setPrankedModAdminAddress(address newAddress) external {
         if (msg.sender != address(s_actorAdmin)) revert InvariantTestError();
         s_prankedModAdminAddress = newAddress;
     }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.16;
+pragma solidity ^0.8.15;
 
-import {Modulus} from "../../src/Modulus.sol";
+import {Modulus} from "../../../src/Modulus/Modulus.sol";
 import {Test} from "forge-std/Test.sol";
 import {Constants} from "../Constants.t.sol";
 import {InvariantsBase} from "./InvariantsBase.t.sol";

@@ -1,0 +1,3 @@
+BasicCreate2DeploymentGasTest:testGas() (gas: 78675)
+Create2LookbackDeploymentGasTest:testGas() (gas: 79084)
+VanillaDeploymentGasTest:testGas() (gas: 78583)
